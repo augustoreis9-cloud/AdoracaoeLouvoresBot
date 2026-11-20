@@ -29,7 +29,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     
 
-palavras_proibidas = [
+        palavras_proibidas = [
     "irmã gostosa",
     "tesuda",
     "manda uma foto sua",
