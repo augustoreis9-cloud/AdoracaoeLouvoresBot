@@ -14,8 +14,9 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texto_original = update.message.text or ""
     texto = texto_original.strip().lower()
 
-    if "cfg1io7dd7tcuwrnq3uxxe" in texto:
+    if "fgd86sjmhrqihq95oto26u" in texto:
         return
+ 
 
     # BLOQUEIO DE LINKS
     links_proibidos = [
