@@ -29,7 +29,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     
 
-        palavras_proibidas = [
+    palavras_proibidas = [
     "irmã gostosa",
     "tesuda",
     "manda uma foto sua",
@@ -46,7 +46,7 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     "youporn",
     "camgirl",
     "camgirls"
-]
+    ]
 
 for palavra in palavras_proibidas:
     if palavra in texto:
