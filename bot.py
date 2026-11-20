@@ -27,9 +27,40 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "joinchat/",
         "chat.whatsapp.com/"
     ]
+    
 
-    for link in links_proibidos:
-        if link in texto:
+palavras_proibidas = [
+    "irmã gostosa",
+    "tesuda",
+    "manda uma foto sua",
+    "pqp",
+    "foda-se",
+    "caralho",
+    "porra",
+    "onlyfans",
+    "privacy",
+    "pornhub",
+    "xvideos",
+    "xnxx",
+    "redtube",
+    "youporn",
+    "camgirl",
+    "camgirls"
+]
+
+for palavra in palavras_proibidas:
+    if palavra in texto:
+        await update.message.delete()
+
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="⚠️ Linguagem ou conteúdo inadequado não é permitido."
+        )
+        return
+
+for link in links_proibidos:
+ 
+    if link in texto:
 
             await update.message.delete()
 
