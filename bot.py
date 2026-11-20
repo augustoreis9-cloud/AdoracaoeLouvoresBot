@@ -9,27 +9,18 @@ TOKEN = os.getenv("BOT_TOKEN")
 
 historico = {}
 
-async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
+# BLOQUEIO DE LINKS
+links_proibidos = [
+    "t.me/",
+    "https://t.me/",
+    "http://t.me/",
+    "telegram.me/",
+    "joinchat/",
+    "chat.whatsapp.com/"
+]
 
-    texto_original = update.message.text or ""
-    texto = texto_original.strip().lower()
-
-    if "fgd86sjmhrqihq95oto26u" in texto:
-        return
- 
-
-    # BLOQUEIO DE LINKS
-    links_proibidos = [
-        "t.me/",
-        "https://t.me/",
-        "http://t.me/",
-        "telegram.me/",
-        "joinchat/",
-        "chat.whatsapp.com/"
-    ]
-    
-
-    palavras_proibidas = [
+# PALAVRAS PROIBIDAS (sempre em minúsculas)
+palavras_proibidas = [
     "irmã gostosa",
     "tesuda",
     "manda uma foto sua",
@@ -46,22 +37,35 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
     "youporn",
     "camgirl",
     "camgirls"
-    ]
+]
 
-for palavra in palavras_proibidas:
-    if palavra in texto:
-        await update.message.delete()
 
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="⚠️ Linguagem ou conteúdo inadequado não é permitido."
-        )
+async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if not update.message:
         return
 
-for link in links_proibidos:
- 
-    if link in texto:
+    texto_original = update.message.text or ""
+    texto = texto_original.strip().lower()
 
+    # LINK AUTORIZADO
+    if "fgd86sjmhrqihq95oto26u" in texto:
+        return
+
+    # BLOQUEIO DE PALAVRAS PROIBIDAS
+    for palavra in palavras_proibidas:
+        if palavra in texto:
+            await update.message.delete()
+
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="⚠️ Linguagem ou conteúdo inadequado não é permitido."
+            )
+            return
+
+    # BLOQUEIO DE LINKS
+    for link in links_proibidos:
+        if link in texto:
             await update.message.delete()
 
             await context.bot.send_message(
@@ -70,6 +74,7 @@ for link in links_proibidos:
             )
             return
 
+    # CONTROLE DE FLOOD
     usuario = update.effective_user.id
 
     if usuario not in historico:
@@ -86,13 +91,13 @@ for link in links_proibidos:
         historico[usuario]["contador"] = 1
 
     if historico[usuario]["contador"] >= 4:
-
         await update.message.delete()
 
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
             text="⚠️ Evite repetir a mesma mensagem várias vezes."
         )
+
 
 print("Bot iniciado!")
 
